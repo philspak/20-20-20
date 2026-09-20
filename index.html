@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="appTitle">20 · 20 · 20 - Eye Relaxation & Digital Wellness</title>
+  <meta name="description" content="A 20-20-20 rule eye relaxation progressive web app. Take a 20-second break every 20 minutes to gaze 20 feet away and prevent digital eye strain.">
+  <meta name="theme-color" content="#091b2b">
+  
+  <!-- Subpath / Reverse Proxy safe relative links -->
+  <link rel="icon" type="image/svg+xml" href="./icons/icon.svg">
+  <link rel="alternate icon" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="manifest" href="./manifest.webmanifest">
+
+  <!-- Typography: Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <!-- Header Navigation -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-title" data-i18n="appTitle">20 · 20 · 20</h1>
+          <p class="brand-tagline" data-i18n="appSubtitle">Eye Relaxation & Digital Wellness</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Language Selector -->
+        <select id="lang-select" class="select-input" data-i18n-aria="languageSelect" aria-label="Language">
+          <option value="en">English</option>
+          <option value="de">Deutsch</option>
+          <option value="fr">Français</option>
+          <option value="it">Italiano</option>
+        </select>
+
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" class="icon-button" data-i18n-title="themeToggle" aria-label="Toggle Theme">
+          <!-- Sun Icon (shown in dark mode) -->
+          <svg id="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+          <!-- Moon Icon (shown in light mode) -->
+          <svg id="theme-icon-moon" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+          </svg>
+        </button>
+
+        <!-- Settings Modal Trigger -->
+        <button id="btn-open-settings" class="icon-button" data-i18n-title="btnSettings" aria-label="Settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="hero-inner">
+
+      <!-- Lunch Break Notice Banner -->
+      <section id="lunch-notice" class="notice-card hidden" role="region" aria-live="polite">
+        <div class="notice-content">
+          <div class="notice-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="notice-title" data-i18n="lunchNoticeTitle">Lunch Break (11:30 – 13:00)</h2>
+            <p class="notice-text" data-i18n="lunchNoticeText">The timer is paused to encourage screen-free mealtime. You can manually resume if needed.</p>
+          </div>
+        </div>
+        <button id="btn-override-lunch" class="button-secondary button-sm" data-i18n="btnResumeAnyway">Work Anyway</button>
+      </section>
+
+      <!-- After Hours Notice Banner -->
+      <section id="after-hours-notice" class="notice-card hidden" role="region" aria-live="polite">
+        <div class="notice-content">
+          <div class="notice-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14h-2v-2h2zm0-4h-2V7h2z"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="notice-title" data-i18n="afterHoursNoticeTitle">Workday Completed (After 18:00)</h2>
+            <p class="notice-text" data-i18n="afterHoursNoticeText">Your eyes have worked hard. The timer is automatically stopped for the evening.</p>
+          </div>
+        </div>
+        <button id="btn-override-afterhours" class="button-secondary button-sm" data-i18n="btnStart">Start Extra Session</button>
+      </section>
+
+      <!-- Hero Header -->
+      <section class="hero-section">
+        <h2 class="hero-title">20 · 20 · 20</h2>
+        <p class="hero-subtitle" data-i18n="appSubtitle">Eye Relaxation & Digital Wellness</p>
+      </section>
+
+      <!-- Central Timer Card -->
+      <section class="card timer-card">
+        <!-- Status Badge -->
+        <div id="status-badge" class="meta-tag status-work">
+          <span class="indicator-dot"></span>
+          <span id="status-badge-text" data-i18n="idlePhase">Ready to Focus</span>
+        </div>
+
+        <!-- Circular Meter -->
+        <div class="timer-visual">
+          <svg class="timer-svg" viewBox="0 0 260 260">
+            <circle class="timer-bg-circle" cx="130" cy="130" r="110"/>
+            <circle id="timer-progress" class="timer-progress-circle" cx="130" cy="130" r="110"/>
+          </svg>
+          <div class="timer-center-content">
+            <div id="timer-digits" class="timer-display">20:00</div>
+            <div id="timer-phase-label" class="timer-sublabel" data-i18n="workPhase">Focus Session</div>
+          </div>
+        </div>
+
+        <!-- Explanatory message below timer -->
+        <p id="timer-status-desc" class="timer-status-desc" data-i18n="statusReady">
+          Ready when you are. Press Start to begin your 20-minute focus session.
+        </p>
+
+        <!-- Primary Action Buttons -->
+        <div class="timer-actions">
+          <button id="btn-primary-action" class="button-primary button-lg">
+            <svg id="primary-icon-play" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+            <svg id="primary-icon-pause" style="display: none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="6" y="4" width="4" height="16"/>
+              <rect x="14" y="4" width="4" height="16"/>
+            </svg>
+            <span id="btn-primary-text" data-i18n="btnStart">Start Focus</span>
+          </button>
+          <button id="btn-reset" class="button-secondary button-lg" data-i18n="btnReset">Reset</button>
+        </div>
+
+        <!-- Quick 20-second break trigger -->
+        <div class="quick-break-row">
+          <button id="btn-take-break" class="button-secondary" data-i18n="btnTakeBreakNow">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <span>Take 20s Break Now</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Content Grid: Stats & Rule Guide -->
+      <section class="content-grid">
+        <!-- Daily Stats Card -->
+        <div class="card">
+          <h3 class="grid-card-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20V10"/>
+              <path d="M18 20V4"/>
+              <path d="M6 20v-4"/>
+            </svg>
+            <span data-i18n="statsTitle">Today's Wellness</span>
+          </h3>
+          <div class="stats-row">
+            <div class="stat-box">
+              <div id="stat-breaks" class="stat-value">0</div>
+              <div class="stat-label" data-i18n="statsBreaksCompleted">Breaks Completed</div>
+            </div>
+            <div class="stat-box">
+              <div id="stat-focus" class="stat-value">0</div>
+              <div class="stat-label"><span data-i18n="statsFocusTime">Focus</span> (<span data-i18n="statsMinutes">min</span>)</div>
+            </div>
+            <div class="stat-box">
+              <div id="stat-streak" class="stat-value">1</div>
+              <div class="stat-label" data-i18n="statsStreak">Daily Streak</div>
+            </div>
+          </div>
+          <div class="tip-box" style="margin-top: 1.5rem;">
+            <p data-i18n="scheduleDescription">Honours standard business hours (stops at 18:00) with a lunch break (11:30 – 13:00).</p>
+          </div>
+        </div>
+
+        <!-- 20-20-20 Rule Guide Card -->
+        <div class="card">
+          <h3 class="grid-card-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="16" x2="12" y2="12"/>
+              <line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+            <span data-i18n="guideTitle">The 20-20-20 Rule</span>
+          </h3>
+          <ul class="rule-list">
+            <li class="rule-item">
+              <span class="rule-badge">20m</span>
+              <div>
+                <div class="rule-headline" data-i18n="guideRule1">Every 20 minutes</div>
+                <div class="rule-desc" data-i18n="guideRule1Desc">of looking at a screen...</div>
+              </div>
+            </li>
+            <li class="rule-item">
+              <span class="rule-badge">20ft</span>
+              <div>
+                <div class="rule-headline" data-i18n="guideRule2">Look 20 feet away</div>
+                <div class="rule-desc" data-i18n="guideRule2Desc">at a distant object or out a window...</div>
+              </div>
+            </li>
+            <li class="rule-item">
+              <span class="rule-badge">20s</span>
+              <div>
+                <div class="rule-headline" data-i18n="guideRule3">For 20 seconds</div>
+                <div class="rule-desc" data-i18n="guideRule3Desc">to allow your eye focusing muscles to fully relax.</div>
+              </div>
+            </li>
+          </ul>
+          <div class="tip-box">
+            <p data-i18n="ergonomicTip">Tip: Ensure your screen is about an arm's length (50–70 cm) away and the top of the monitor is at eye level.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- 20-Second Break Modal Popup (Native Accessible HTML5 Dialog) -->
+  <dialog id="break-modal" aria-labelledby="modal-break-title">
+    <div class="modal-header">
+      <h2 id="modal-break-title" class="modal-title" data-i18n="modalBreakTitle">20-Second Eye Break</h2>
+      <button id="btn-close-break-modal" class="modal-close-btn" data-i18n-aria="btnClose" aria-label="Close">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="break-modal-body">
+      <div class="distance-badge" data-i18n="modalDistanceText">20 FEET / 6 METERS</div>
+      
+      <!-- Calming Focal Animation Visualizer -->
+      <div class="relax-visualizer" aria-hidden="true">
+        <div class="relax-pulse-ring"></div>
+        <div class="relax-inner-circle">
+          <div id="break-modal-countdown" class="break-counter">20</div>
+          <div class="break-counter-unit" data-i18n="secondsRemaining">seconds remaining</div>
+        </div>
+      </div>
+
+      <p class="break-instructions" data-i18n="modalBreakInstruction">
+        Shift your gaze to an object at least 20 feet (6 meters) away.
+      </p>
+
+      <div class="break-tips-carousel">
+        <p id="break-tip-text" data-i18n="tipBlink">Blink gently a few times to lubricate your eyes.</p>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; width: 100%; justify-content: center; margin-top: 0.5rem;">
+        <button id="btn-finish-break" class="button-primary" data-i18n="btnFinishBreak">Done Relaxing</button>
+        <button id="btn-skip-break" class="button-secondary" data-i18n="btnSkipBreak">Skip Break</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Preferences & Settings Modal -->
+  <dialog id="settings-modal" aria-labelledby="settings-modal-title">
+    <div class="modal-header">
+      <h2 id="settings-modal-title" class="modal-title" data-i18n="settingsTitle">Preferences & Settings</h2>
+      <button id="btn-close-settings-modal" class="modal-close-btn" data-i18n-aria="btnClose" aria-label="Close">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="settings-group">
+      <!-- Durations -->
+      <div class="setting-item">
+        <label for="setting-work-duration" data-i18n="settingWorkDuration">Focus Interval (minutes)</label>
+        <input type="number" id="setting-work-duration" class="setting-input" min="1" max="120" value="20">
+      </div>
+
+      <div class="setting-item">
+        <label for="setting-break-duration" data-i18n="settingBreakDuration">Break Duration (seconds)</label>
+        <input type="number" id="setting-break-duration" class="setting-input" min="5" max="300" value="20">
+      </div>
+
+      <!-- Sound Toggle & Volume -->
+      <div class="toggle-wrapper">
+        <div class="toggle-info">
+          <div class="toggle-label" data-i18n="settingSound">Audio Chime</div>
+          <div class="toggle-desc" data-i18n="settingSoundDesc">Play a gentle singing bowl chime at the start and end of breaks.</div>
+        </div>
+        <label class="toggle-container">
+          <input type="checkbox" id="setting-sound-enabled" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="setting-item" id="volume-setting-row">
+        <label for="setting-volume" data-i18n="settingVolume">Chime Volume</label>
+        <div class="range-slider-container">
+          <input type="range" id="setting-volume" class="range-slider" min="0" max="1" step="0.05" value="0.7">
+          <span id="volume-val-display" class="slider-val">70%</span>
+        </div>
+      </div>
+
+      <!-- Business Hours & Lunch Break -->
+      <div class="toggle-wrapper">
+        <div class="toggle-info">
+          <div class="toggle-label" data-i18n="settingBusinessHours">Enforce Business Hours</div>
+          <div class="toggle-desc" data-i18n="settingBusinessHoursDesc">Automatically stop tracking after 18:00.</div>
+        </div>
+        <label class="toggle-container">
+          <input type="checkbox" id="setting-business-hours" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-wrapper">
+        <div class="toggle-info">
+          <div class="toggle-label" data-i18n="settingLunchBreak">Enforce Lunch Break</div>
+          <div class="toggle-desc" data-i18n="settingLunchBreakDesc">Pause timer between 11:30 and 13:00.</div>
+        </div>
+        <label class="toggle-container">
+          <input type="checkbox" id="setting-lunch-enabled" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <!-- Desktop Notifications -->
+      <div class="toggle-wrapper">
+        <div class="toggle-info">
+          <div class="toggle-label" data-i18n="settingNotifications">Desktop Notifications</div>
+          <div class="toggle-desc" id="notif-permission-status" data-i18n="settingNotificationsDesc">Receive alerts when it's time for a break even if the browser is hidden.</div>
+        </div>
+        <button id="btn-request-notif" class="button-secondary button-sm" data-i18n="btnRequestPermission">Enable Notifications</button>
+      </div>
+
+      <!-- Test Notification Button -->
+      <div>
+        <button id="btn-test-notif" class="button-secondary button-sm" data-i18n="btnTestNotification">Test Notification</button>
+      </div>
+
+      <!-- Fast Testing Demo Mode -->
+      <div class="toggle-wrapper" style="border-top: 1px dashed var(--border); padding-top: 1rem;">
+        <div class="toggle-info">
+          <div class="toggle-label" data-i18n="settingTestingMode">Demo / Fast Testing Mode</div>
+          <div class="toggle-desc" data-i18n="settingTestingModeDesc">Shortens intervals (10s focus / 5s break) for instant demonstration.</div>
+        </div>
+        <label class="toggle-container">
+          <input type="checkbox" id="setting-demo-mode">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="settings-modal-footer">
+      <button id="btn-save-settings" class="button-primary" data-i18n="btnSave">Save Settings</button>
+    </div>
+  </dialog>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-schedule">
+      <div class="footer-schedule-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <span>Active Day: 08:00 – 18:00</span>
+      </div>
+      <span>•</span>
+      <div class="footer-schedule-item">
+        <span>Lunch: 11:30 – 13:00</span>
+      </div>
+    </div>
+    <p>20-20-20 Progressive Web App • Designed for Digital Wellbeing</p>
+  </footer>
+
+  <!-- Scripts: Vanilla JS Modules with Relative Paths -->
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
